@@ -5,51 +5,137 @@ df = pd.read_csv("data.csv")
 country_codes = pd.read_csv("country_codes_ISO_3166-1_alpha-2.csv")["country_code"].values
 
 indicators = [
-    "NY.GDP.MKTP.CD",  # GDP (Current US$)
-    "SP.POP.TOTL",  # Total Population
-    "NY.GDP.PCAP.CD",  # GDP per Capita (Current US$)
-    "NY.GDP.PCAP.PP.CD",  # GDP per Capita (Purchasing Power Parity)
-    "SL.UEM.TOTL.ZS",  # Unemployment, Total (% of total labor force)
-    "FP.CPI.TOTL.ZG",  # Inflation, Consumer Prices (annual %)
-    "SI.POV.DDAY",  # Poverty headcount ratio at national poverty lines (% of population)
-    "SI.POV.GINI",  # GINI index (Income inequality)
-    "SH.DYN.MORT",  # Mortality rate, under-5 (per 1,000 live births)
-    "SH.XPD.TOTL.ZS",  # Health expenditure, total (% of GDP)
-    "SE.XPD.TOTL.GD.ZS",  # Education expenditure, total (% of GDP)
-    "IT.NET.USER.ZS",  # Internet users (% of population)
+    # Economic Indicators
+    "NY.GDP.MKTP.CD",  # GDP (current US$)
+    "NY.GDP.PCAP.PP.CD",  # GDP per capita (current US$) (PPP)
+    "NY.GDP.MKTP.KD.ZG",  # GDP growth (annual %)
     "NE.EXP.GNFS.ZS",  # Exports of goods and services (% of GDP)
     "NE.IMP.GNFS.ZS",  # Imports of goods and services (% of GDP)
-    "AG.LND.TOTL.K2",  # Agricultural land (% of total land area)
-    "EN.ATM.PM25.MC.M3",  # PM2.5 air pollution, population exposure (micrograms per cubic meter)
-    "EG.USE.PCAP.KG.OE",  # Electric power consumption (kWh per capita)
-    "TX.VAL.TOTL.GD.ZS",  # Tax revenue (% of GDP)
-    "GC.TAX.TOTL.GD.ZS",  # General government tax revenue (% of GDP)
-    "FI.RES.TOTL.M3",  # Domestic credit to private sector (% of GDP)
-    "SL.TLF.TOTL.IN",  # Labor force participation rate, total (% of total population aged 15+)
-    "GI.TAX.TOTL.ZS",  # General government revenue (% of GDP)
-    "EG.USE.PCAP.KG.OE",  # Energy use (kg of oil equivalent per capita)
-    "ST.INT.ARVL",  # International tourism, number of arrivals
-    "NY.GDP.TOTL.ZS",  # GDP as % of the world GDP
+    "BX.KLT.DINV.CD.WD",  # Foreign direct investment, net inflows (BoP, current US$)
+    "FR.INR.RINR",  # Real interest rate (%)
+    "NY.GDP.DEFL.KD.ZG",  # Inflation, GDP deflator (annual %)
+    "GC.DOD.TOTL.GD.ZS",  # Central government debt, total (% of GDP)
+    "FP.CPI.TOTL",  # Inflation, consumer prices (annual %)
+    "NE.CON.PRVT.ZS",  # Household consumption expenditure (% of GDP)
+    "NE.GDI.TOTL.ZS",  # Gross capital formation (% of GDP)
+    "FM.LBL.MQMY.GD.ZS",  # Domestic credit to private sector (% of GDP)
+    "GC.REV.XGRT.GD.ZS",  # Revenue, excluding grants (% of GDP)
+    "NE.TRD.GNFS.ZS",  # Trade (% of GDP)
+    
+    # Social Indicators
+    "SP.POP.TOTL",  # Population, total
+    "SP.POP.GROW",  # Population growth (annual %)
+    "SP.DYN.LE00.IN",  # Life expectancy at birth, total (years)
+    "SE.XPD.TOTL.GD.ZS",  # Government expenditure on education (% of GDP)
+    "SE.ADT.LITR.ZS",  # Literacy rate, adult total (% of people aged 15+)
+    "SH.XPD.CHEX.GD.ZS",  # Current health expenditure (% of GDP)
+    "SH.DYN.MORT",  # Mortality rate, under-5 (per 1,000 live births)
+    "SH.DYN.NMRT",  # Neonatal mortality rate (per 1,000 live births)
     "SH.STA.MMRT",  # Maternal mortality ratio (per 100,000 live births)
-    "SP.DYN.LE00.IN",  # Life expectancy at birth (total years)
-    "SP.DYN.IMRT.IN",  # Infant mortality rate (per 1,000 live births)
-    "CC.EST",  # Carbon dioxide emissions (metric tons per capita)
-    "PV.EST",  # Total renewable energy consumption (% of total energy use)
-    "RL.EST",  # Renewable energy consumption (% of total energy use)
-    "IT.NET.SECR.P6",  # Internet security incidents reported
-    "IE.PPI.WATR.CD",  # Population with access to clean water (%)
-    "IP.PAT.RESD",  # Resident patent applications (per million population)
-    "GB.XPD.RSDV.GD.ZS",  # Research and development expenditure (% of GDP)
-    "IP.PAT.NRES",  # Non-resident patent applications (per million population)
-    "VA.EST",  # Value added in manufacturing (% of GDP)
-    "SM.POP.NETM",  # Net migration
-    "MS.MIL.XPND.ZS"  # Military expenditure (% of GDP)
+    "EG.ELC.ACCS.ZS",  # Access to electricity (% of population)
+    "IT.NET.USER.ZS",  # Individuals using the Internet (% of population)
+    "SH.IMM.IDPT",  # Immunization, DPT (% of children ages 12-23 months)
+    "SH.STA.BRTC.ZS",  # Births attended by skilled health staff (% of total)
+    "SH.HIV.INCD.TL.P3",  # Incidence of HIV (% of uninfected population ages 15-49)
+    "SH.STA.SMSS.ZS",  # Smoking prevalence, males (% of adults)
+    "SH.STA.SSMS.ZS",  # Smoking prevalence, females (% of adults)
+    
+    # Environmental Indicators
+    "AG.LND.FRST.ZS",  # Forest area (% of land area)
+    "EN.ATM.CO2E.PC",  # CO2 emissions (metric tons per capita)
+    "EN.POP.SLUM.UR.ZS",  # Population living in slums (% of urban population)
+    "EG.ELC.RNEW.ZS",  # Renewable electricity output (% of total electricity output)
+    "EG.FEC.RNEW.ZS",  # Renewable energy consumption (% of total final energy consumption)
+    "EN.ATM.PM25.MC.M3",  # PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)
+    "EN.CLC.MDAT.ZS",  # Land area under cereal production (% of total)
+    "ER.H2O.INTR.PC",  # Renewable internal freshwater resources per capita (cubic meters)
+    "EN.ATM.METH.KT.CE",  # Methane emissions (kt of CO2 equivalent)
+    "EN.ATM.NOXE.KT.CE",  # Nitrous oxide emissions (thousand metric tons of CO2 equivalent)
+    "AG.LND.TOTL.K2",  # Land area (sq. km)
+    "AG.PRD.CROP.XD",  # Crop production index (2004-2006 = 100)
+    "AG.PRD.FOOD.XD",  # Food production index (2004-2006 = 100)
+    "AG.YLD.CREL.KG",  # Cereal yield (kg per hectare)
+    "AG.SRF.TOTL.K2",  # Surface area (sq. km)
+    
+    # Governance Indicators
+    "IQ.CPA.TRAN.XQ",  # Control of corruption (estimate)
+    "IQ.CPA.GOVE.XQ",  # Government effectiveness (estimate)
+    "IQ.CPA.PROP.XQ",  # Rule of law (estimate)
+    "IQ.CPA.REG.XQ",  # Regulatory quality (estimate)
+    "IQ.CPA.POLS.XQ",  # Political stability and absence of violence (estimate)
+    "IQ.CPA.VACR.XQ",  # Voice and accountability (estimate)
+    "IC.BUS.EASE.XQ",  # Ease of doing business score (1=most business-friendly regulations)
+    "GC.TAX.TOTL.GD.ZS",  # Total tax revenue (% of GDP)
+    "SL.UEM.TOTL.ZS",  # Unemployment, total (% of total labor force)
+    "IC.REG.DURS",  # Time required to start a business (days)
+    "SE.TER.CUAT.BA.ZS",  # Educational attainment, at least Bachelor's or equivalent (% ages 25+)
+    "SE.PRM.CMPT.ZS",  # Primary completion rate, total (% of relevant age group)
+    "SG.GEN.PARL.ZS",  # Proportion of seats held by women in national parliaments (%)
+    
+    # Infrastructure Indicators
+    "IT.CEL.SETS.P2",  # Mobile cellular subscriptions (per 100 people)
+    "IS.ROD.DNST.K2",  # Road density (km of road per sq. km of land area)
+    "EG.IMP.CONS.ZS",  # Energy imports, net (% of energy use)
+    "EG.USE.ELEC.KH.PC",  # Electric power consumption (kWh per capita)
+    "IT.MLT.MAIN.P2",  # Fixed telephone subscriptions (per 100 people)
+    "IS.AIR.PSGR",  # Air transport, passengers carried
+    "IS.AIR.GOOD.MT.K1",  # Air transport, freight (million ton-km)
+    "IS.RRS.GOOD.MT.K1",  # Railways, goods transported (million ton-km)
+    "IS.RRS.PASG.KM",  # Railways, passengers carried (million passenger-km)
+    "IS.VEH.NVEH.P3",  # Motor vehicles (per 1,000 people)
+    
+    # Inequality and Poverty Indicators
+    "SI.POV.GINI",  # Gini index (World Bank estimate)
+    "SI.POV.DDAY",  # Poverty headcount ratio at $2.15 a day (2017 PPP) (% of population)
+    "SI.POV.NAHC",  # Poverty headcount ratio at national poverty lines (% of population)
+    "SI.DST.05TH.20",  # Income share held by lowest 20%
+    "SI.DST.10TH.10",  # Income share held by highest 10%
+    "SI.POV.UMIC",  # Poverty headcount ratio at $5.50 a day (2017 PPP) (% of population)
+    "SI.POV.LMIC",  # Poverty headcount ratio at $3.20 a day (2017 PPP) (% of population)
+    "SI.POV.RUHC",  # Rural poverty headcount ratio at national poverty lines (% of rural population)
+    "SI.POV.URHC",  # Urban poverty headcount ratio at national poverty lines (% of urban population)",
 ]
 
+
 inverse_indicators = [
-    "SL.UEM.TOTL.ZS", "FP.CPI.TOTL.ZG", "SI.POV.DDAY", "SI.POV.GINI", 
-    "SH.DYN.MORT", "EN.ATM.PM25.MC.M3", "SH.STA.MMRT", "SP.DYN.IMRT.IN", 
-    "CC.EST", "IT.NET.SECR.P6"
+    # Economic Indicators
+    "NY.GDP.DEFL.KD.ZG",  # Inflation, GDP deflator (annual %)
+    "FP.CPI.TOTL",  # Inflation, consumer prices (annual %)
+    "GC.DOD.TOTL.GD.ZS",  # Central government debt, total (% of GDP)
+
+    # Social Indicators
+    "SP.POP.GROW",  # Population growth (annual %) (can be bad if growth exceeds sustainable levels)
+    "SH.DYN.MORT",  # Mortality rate, under-5 (per 1,000 live births)
+    "SH.DYN.NMRT",  # Neonatal mortality rate (per 1,000 live births)
+    "SH.STA.MMRT",  # Maternal mortality ratio (per 100,000 live births)
+    "SH.HIV.INCD.TL.P3",  # Incidence of HIV (% of uninfected population ages 15-49)
+    "SH.STA.SMSS.ZS",  # Smoking prevalence, males (% of adults)
+    "SH.STA.SSMS.ZS",  # Smoking prevalence, females (% of adults)
+
+    # Environmental Indicators
+    "EN.ATM.CO2E.PC",  # CO2 emissions (metric tons per capita)
+    "EN.ATM.PM25.MC.M3",  # PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)
+    "EN.ATM.METH.KT.CE",  # Methane emissions (kt of CO2 equivalent)
+    "EN.ATM.NOXE.KT.CE",  # Nitrous oxide emissions (thousand metric tons of CO2 equivalent)
+    "EN.POP.SLUM.UR.ZS",  # Population living in slums (% of urban population)
+
+    # Governance Indicators
+    "IQ.CPA.POLS.XQ",  # Political instability and violence (higher = worse estimate)
+    "IQ.CPA.TRAN.XQ",  # Control of corruption (higher corruption = worse)
+    "SL.UEM.TOTL.ZS",  # Unemployment, total (% of total labor force)
+    "IC.REG.DURS",  # Time required to start a business (days)
+
+    # Infrastructure Indicators
+    "IT.CEL.SETS.P2",  # Mobile cellular subscriptions (per 100 people) (higher can imply inefficiency or waste in some contexts)
+
+    # Inequality and Poverty Indicators
+    "SI.POV.GINI",  # Gini index (higher = more inequality)
+    "SI.POV.DDAY",  # Poverty headcount ratio at $2.15 a day (2017 PPP) (% of population)
+    "SI.POV.NAHC",  # Poverty headcount ratio at national poverty lines (% of population)
+    "SI.POV.UMIC",  # Poverty headcount ratio at $5.50 a day (2017 PPP) (% of population)
+    "SI.POV.LMIC",  # Poverty headcount ratio at $3.20 a day (2017 PPP) (% of population)
+    "SI.POV.RUHC",  # Rural poverty headcount ratio at national poverty lines (% of rural population)
+    "SI.POV.URHC",  # Urban poverty headcount ratio at national poverty lines (% of urban population)
 ]
 
 for i in indicators:
